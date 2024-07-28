@@ -1,0 +1,11 @@
+let express=require("express")
+const { add,getcart, inc, dec, delcartprod, clearcart } = require("../controlers/cartcon")
+let {islogin}=require("../controlers/usercon")
+let cartroute=new express.Router()
+cartroute.post("/add",islogin,add)
+cartroute.get("/get/:uid",islogin,getcart)
+cartroute.put("/inc",islogin,inc)
+cartroute.put("/dec",islogin,dec)
+cartroute.delete("/delete/:_id",islogin,delcartprod)
+cartroute.delete("/clear/:uid",islogin,clearcart)
+module.exports=cartroute

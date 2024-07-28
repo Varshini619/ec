@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+let express=require("express")
+let mongoose=require("mongoose")
+const route = require("./routes/userroute")
+const prodroute = require("./routes/prodroutes")
+var bodyParser = require('body-parser')
+let cors=require("cors")
+const cartroute = require("./routes/cartroutes")
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+let app=express()
+app.use(express.json())
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use("/imgs",express.static("./pimgs"))
+mongoose.connect("mongodb://127.0.0.1:27017/fsd2ecomdb1").then(()=>{
+    console.log("ok")
+})
+
+app.use("/user",route)
+app.use("/prod",prodroute)
+app.use("/cart",cartroute)
+
+app.listen(5000)
